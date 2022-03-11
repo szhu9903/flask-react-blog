@@ -1,0 +1,36 @@
+.nav {
+  position:sticky; 
+  z-index:999; 
+  top:0;
+  width: 100%;
+  height: 60px;
+  text-align: center;
+  margin-bottom: 12px;
+  background-color: rgb(255, 255, 255);
+  box-shadow:0px 1px 8px #707480;
+}
+
+.logo {
+  float: left;
+  width: 120px;
+  height: 60px;
+  margin-left: 20%;
+}
+.logo img {
+  width: 89%;
+  height: 100%;
+}
+.menu {
+  height: 100%;
+  padding-top: 8px;
+  border-bottom: 0px;
+}
+.login {
+  margin: 14px 20px 14px 20px;
+}
+
+
+/* .logo {
+  float: right;
+  margin: 16px 0 16px 24px;
+} */

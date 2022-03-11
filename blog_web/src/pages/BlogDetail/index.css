@@ -1,0 +1,31 @@
+
+.detail h1 {
+  font-size: 2.3rem;
+}
+.content > div{
+  margin: 0 12px 12px 0;
+  padding: 12px;
+  background-color: rgb(255, 255, 255);
+}
+
+/* 描述 */
+.synoposis {
+  background-color: #f8f8f8;
+  color: #999aaa;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+.synoposis > div {
+  margin: 3px 0;
+}
+.synoposis-args > span{
+  margin-right: 10px;
+}
+
+.detail-nav {
+  background-color: rgb(255, 255, 255);
+  margin-bottom: 12px;
+  padding: 12px;
+}
+
+
