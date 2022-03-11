@@ -1,0 +1,13 @@
+.blog-list {
+  margin-right: 12px;
+  padding: 0px 8px;
+  background-color: rgb(255, 255, 255);
+}
+
+.brief {
+  width: 100%;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
