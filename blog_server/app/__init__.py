@@ -21,14 +21,14 @@ def init_blueprint(new_app):
     with new_app.app_context():
         from app.api import special
         from app.api import general
-    new_app.register_blueprint(special, url_prefix='/v2')
-    new_app.register_blueprint(general, url_prefix='/v3')
+    new_app.register_blueprint(special, url_prefix='/api/v2')
+    new_app.register_blueprint(general, url_prefix='/api/v3')
 
 def init_extensions(new_app):
     from app.extensions import cors, github
     # 跨域
-    cors.init_app(new_app, resources={r"/v3/*": {"origins": "http://localhost:3000"}})
-    cors.init_app(new_app, resources={r"/v2/*": {"origins": "http://localhost:3000"}})
+    cors.init_app(new_app, resources={r"/api/v3/*": {"origins": "*"}})
+    cors.init_app(new_app, resources={r"/api/v2/*": {"origins": "*"}})
     # GitHub 登陆配置
     github.init_app(new_app)
 

@@ -26,7 +26,7 @@ export default function Login() {
   const getIsLogin = (e) => {
     const {isLogin} = e.data;
     if (isLogin === 1){
-      console.log("登录成功！");
+      message.success("授权成功");
       dispatch(action.login.updateIsShowLogin({isShowLogin: false}));
       navigate(0);
     }
@@ -35,7 +35,7 @@ export default function Login() {
 
   // github验证登录
   const openOauth = () => {
-    const oauthUrl = "http://127.0.0.1:8005/v2/github/login";
+    const oauthUrl = "https://zsjblog.com/api/v2/github/login";
     window.open(oauthUrl, 'github oauth', 'height=600, width=500, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=n o, status=no');
     window.addEventListener('message', getIsLogin);
   }

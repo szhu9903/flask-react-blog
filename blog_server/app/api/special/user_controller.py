@@ -54,8 +54,10 @@ def update_tokens():
             return jsonify(g.result)
         # 解析Token
         token_json = User.verify_token(refresh_token)
-        if not token_json:
+        if token_json is None:
+            g.result['status'] = 401
             g.result['message'] = '刷新Token失效!'
+            return jsonify(g.result)
         if token_json.get('id'):
             # 去redis验证刷新Token白名单
             redis_refresh_token = RedisExecute.token_get(token_json['id'])
@@ -67,6 +69,7 @@ def update_tokens():
                 g.result['message'] = '刷新Token成功!'
                 g.result['data'] = token_data
                 return jsonify(g.result)
+        g.result['status'] = 401
         g.result['message'] = 'refresh token 失效'
     except Exception as Err:
         logger.exception('服务器发生错误！%s' % Err)
