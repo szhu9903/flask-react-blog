@@ -2,10 +2,7 @@ import logging
 from flask import current_app
 from flask import g
 
-
-
 logger = logging.getLogger('app')
-
 
 class SqlExecute(object):
     def __init__(self):
@@ -26,6 +23,9 @@ class SqlExecute(object):
             self.cursor.execute(sql, args)
             result = self.cursor.lastrowid
         except Exception as Err:
+            g.is_continue_exec = False
+            g.result['code'] = 0x21
+            g.result["message"] = f"sql execute error: {str(Err)}"
             self.conn.rollback()
             self.cursor.close()
             self.conn.close()
@@ -53,6 +53,7 @@ class SqlExecute(object):
             result = cursor.fetchall()
         except Exception as Err:
             g.is_continue_exec = False
+            g.result['code'] = 0x21
             g.result["message"] = f"sql execute error: {str(Err)}"
             logger.exception('sql execute err : %s' % Err)
             raise Exception(Err)
@@ -74,6 +75,7 @@ class SqlExecute(object):
             result = cursor.lastrowid
         except Exception as Err:
             g.is_continue_exec = False
+            g.result['code'] = 0x21
             g.result["message"] = f"sql execute error: {str(Err)}"
             conn.rollback()
             logger.exception('sql execute err : %s' % Err)

@@ -5,7 +5,7 @@ from app.comm.GeneralOperate import GeneralOperate
 from app.comm.CompositeOperate import CompositeOperate
 from .BlogOperate import BlogOperate
 from .CommentController import CommentController
-from app.unit_config import table_module_map
+from app.module_config import table_module_map
 
 logger = logging.getLogger('app')
 
