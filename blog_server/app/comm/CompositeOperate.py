@@ -17,12 +17,12 @@ class CompositeOperate(GeneralOperate):
         if not user:
             g.is_continue_exec = False
             g.result["message"] = "未登录！"
-            g.result["status"] = 401
+            g.result["status"] = 403
             return
         if g.view_args['config_name'] not in user.get(2, []):
             g.is_continue_exec = False
             g.result["message"] = "无权操作！"
-            g.result["status"] = 401
+            g.result["status"] = 403
             return
 
     def get_link_module_data(self, module, row_data):

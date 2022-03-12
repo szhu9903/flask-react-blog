@@ -2,7 +2,7 @@ import axios from 'axios'
 import { message } from 'antd'
 
 const service = axios.create({
-  baseURL: "http://127.0.0.1:8005", 
+  baseURL: "https://zsjblog.com/api", 
   headers: {"Content-Type": "application/json"},
   timeout: 50000,
 })
@@ -37,6 +37,9 @@ function refreshToken(data) {
 // 请求拦截
 service.interceptors.request.use(
   (config) => {
+    if (!window.localStorage.getItem('access_token')){
+      return config;
+    }
     config.headers.Authorization = `Token ${window.localStorage.getItem('access_token')}`;
     // 登录接口和刷新token接口绕过
     if (config.url.indexOf('/update/tokens') >= 0 || config.url.indexOf('/login') >= 0) {
@@ -81,10 +84,15 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   (response) => {
     const { status } = response.data;
-    if (status === 401) {
-      message.error(response.data.message);
+    switch (status){
+      case 401:
+        window.localStorage.clear();
+        message.error(response.data.message);
+      case 403:
+        message.error(response.data.message);
+      default:
+        return response;
     }
-    return response;
   },
   (error) => {
     console.log(error);
