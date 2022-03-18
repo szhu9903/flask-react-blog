@@ -9,13 +9,13 @@ on:
       - master
       - develop
     paths:
-      - blog_server/**
+      - 'blog_server/**'
   pull_request:
     branches:
       - master
       - develop
     paths:
-      - blog_server/**
+      - 'blog_server/**'
 
 jobs:
   falsk_test:
