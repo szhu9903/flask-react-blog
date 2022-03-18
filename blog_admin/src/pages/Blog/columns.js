@@ -1,7 +1,7 @@
 
-import { Tag, Space } from 'antd';
+import { Tag, Space, Button } from 'antd';
 
-export const blogColumns = [
+export const blogColumns = (updateBlog, deleteBlog) => [
   {
     title: '标题',
     dataIndex: 'b_title',
@@ -38,8 +38,18 @@ export const blogColumns = [
     dataIndex: 'b_delflag',
     render: bDelflag => (
       <Tag color={bDelflag ? 'geekblue' : 'green'}>
-        {bDelflag ? '已发布' : '未发布'}
+        {bDelflag ? '未发布' : '已发布'}
       </Tag>
     )
+  },
+  {
+    title: "操作",
+    key: "action",
+    render: (text, record) => (
+      <Space size="middle">
+        <Button size="small" type="primary" onClick={updateBlog(record)} ghost>修改</Button>
+        <Button size="small" type="primary" onClick={deleteBlog(record)} danger ghost>删除</Button>
+      </Space>
+    ),
   },
 ];

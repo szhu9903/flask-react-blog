@@ -2,7 +2,7 @@ import axios from 'axios'
 import { message } from 'antd'
 
 const service = axios.create({
-  baseURL: "https://zsjblog.com/api", 
+  baseURL: "http://localhost:8005/api", 
   headers: {"Content-Type": "application/json"},
   timeout: 50000,
 })
@@ -11,6 +11,7 @@ const service = axios.create({
 window.isRefreshing = false
 /*被挂起的请求数组*/
 let refreshSubscribers = []
+
 
 // 检查token实效性
 function isTokenExpired(){
@@ -37,9 +38,6 @@ function refreshToken(data) {
 // 请求拦截
 service.interceptors.request.use(
   (config) => {
-    if (!window.localStorage.getItem('access_token')){
-      return config;
-    }
     config.headers.Authorization = `Token ${window.localStorage.getItem('access_token')}`;
     // 登录接口和刷新token接口绕过
     if (config.url.indexOf('/update/tokens') >= 0 || config.url.indexOf('/login') >= 0) {
@@ -88,8 +86,15 @@ service.interceptors.response.use(
       case 401:
         window.localStorage.clear();
         message.error(response.data.message);
+        window.location.href = '/login';
+        break;
+      case 401.1:
+        window.localStorage.clear();
+        message.error(response.data.message);
+        break;
       case 403:
         message.error(response.data.message);
+        break;
       default:
         return response;
     }

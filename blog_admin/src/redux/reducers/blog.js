@@ -1,10 +1,11 @@
-import { GET_BLOG_COMMENT, GET_BLOG_DETAIL, GET_BLOG_LIST, GET_BLOG_RECOMMEND, UPDATE_IS_REPLAY, CLEAR_BLOG_LIST, GET_BLOG_TYPE } from '../constants'
+import { GET_BLOG_COMMENT, GET_BLOG_DETAIL, GET_BLOG_LIST, GET_BLOG_RECOMMEND, UPDATE_IS_REPLAY, CLEAR_BLOG_LIST, GET_BLOG_TYPE, UPDATE_IS_OPERATE_BLOG } from '../constants'
 
 const initState = {
   blogList: [],
   blogType: [],
   blogRecommend: [],
   blogTotalSize: null,
+  isOperateBlog: false,
   blogDetail: {},
   blogComment: [],
   showReplay: {
@@ -39,8 +40,11 @@ export default function blog(preState=initState, action) {
       }
       return {...preState, showReplay:{replayId:data.id, isShow}};
     
-      case CLEAR_BLOG_LIST:
-        return {...preState, blogList: [], blogTotalSize: null};
+    case CLEAR_BLOG_LIST:
+      return {...preState, blogList: [], blogTotalSize: null};
+    
+    case UPDATE_IS_OPERATE_BLOG:
+      return {...preState, isOperateBlog: data.isOperateBlog, blogDetail: {}};
 
 
     default:
