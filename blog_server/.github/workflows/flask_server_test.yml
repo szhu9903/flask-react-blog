@@ -14,6 +14,7 @@ on:
     branches:
       - master
       - develop
+      - 'feature_**'
     paths:
       - 'blog_server/**'
 
