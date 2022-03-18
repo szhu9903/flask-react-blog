@@ -1,3 +1,4 @@
+import os
 import logging
 from logging.handlers import TimedRotatingFileHandler
 from flask import has_request_context, request
@@ -29,6 +30,11 @@ def create_logger():
     app_logger.addHandler(out_handler)
     app_logger.addHandler(all_handler)
     app_logger.addHandler(err_handler)
+
+
+log_paths = 'log'
+if not os.path.exists(log_paths):
+    os.mkdir(log_paths)
 
 create_logger()
 

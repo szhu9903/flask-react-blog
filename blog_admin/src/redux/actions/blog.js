@@ -1,6 +1,6 @@
 import { type } from '@testing-library/user-event/dist/type';
 import api from '../../api'
-import {CLEAR_BLOG_LIST, GET_BLOG_COMMENT, GET_BLOG_DETAIL, GET_BLOG_LIST, GET_BLOG_RECOMMEND, GET_BLOG_TYPE, UPDATE_IS_REPLAY} from '../constants'
+import {CLEAR_BLOG_LIST, GET_BLOG_COMMENT, GET_BLOG_DETAIL, GET_BLOG_LIST, GET_BLOG_RECOMMEND, GET_BLOG_TYPE, UPDATE_IS_OPERATE_BLOG, UPDATE_IS_REPLAY} from '../constants'
 
 // 获取文章列表 action
 const getBlogList = (param) => {
@@ -63,6 +63,8 @@ const getBlogComment = (param) => {
 // 更新评论是否打开
 const updateIsReplay = (data) => ({type: UPDATE_IS_REPLAY, data});
 
+// 更新文章操作框是否显示
+const updateIsOperateBlog = (data) => ({type: UPDATE_IS_OPERATE_BLOG, data})
 
 export default {
   getBlogList,
@@ -72,5 +74,6 @@ export default {
   getBlogComment,
   updateIsReplay,
   clearBlogList,
+  updateIsOperateBlog,
 }
 

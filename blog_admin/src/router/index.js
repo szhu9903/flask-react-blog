@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react'
 import LayoutAdmin from '../layouts/layout'
 
+const Login = lazy(() => import('../pages/Login'))
 const Home = lazy(() => import('../pages/Home'))
 const Blog = lazy(() => import('../pages/Blog'))
 
@@ -12,6 +13,7 @@ const lazyLoad = (children) => {
 
 
 const router = [
+  { path: "/login", element: lazyLoad(<Login />) },
   {
     path: "/",
     element: <LayoutAdmin />,

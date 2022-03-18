@@ -16,6 +16,19 @@ const getBlogComment = async (param) => {
 const getBlogType = async (param) => {
   return await service.get(`/v3/blogtype/`);
 }
+// 添加文章
+const addBlog = async (data) => {
+  console.log(data);
+  return await service.post(`/v3/blog/`, data)
+}
+// 修改文章
+const modifyBlog = async (param, data) => {
+  return await service.put(`/v3/blog/${param.id}/`, data)
+}
+// 删除文章
+const delBlog = async (param) => {
+  return await service.delete(`/v3/blog/${param.id}/`)
+}
 // 添加文章评论
 const addBlogComment = async (data) => {
   return await service.post(`/v3/blogcomment/`, data);
@@ -30,6 +43,9 @@ export default {
   getBlogDetail,
   getBlogType,
   getBlogComment,
+  addBlog,
+  modifyBlog,
+  delBlog,
   addBlogComment,
   addBlogLikeLog,
 }
