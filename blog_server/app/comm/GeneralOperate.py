@@ -2,7 +2,7 @@ import copy
 from flask import g
 from app.comm.TableModule import TableModule
 from app.comm.SqlExecute import SqlExecute
-from app.unit_config import default_result, default_limit_size
+from app.unit_config import default_result, default_limit_size, depth_post_map
 
 class GeneralOperate(object):
     def __init__(self, module:TableModule):
@@ -230,8 +230,9 @@ class GeneralOperate(object):
             if (req_data[data_key] is None) or (len(str(req_data[data_key])) == 0):
                 del req_data[data_key]
                 continue
-            if data_key not in table_column:
+            if (data_key not in table_column) and (data_key not in depth_post_map):
                 g.is_continue_exec = False
+                g.result['code'] = 0x11
                 g.result["message"] = f'非法列名：{data_key}～'
 
     # POST 提交数据前操作
@@ -240,15 +241,38 @@ class GeneralOperate(object):
 
     # POST 提交数据
     def deal_post_data(self):
-        insert_data = g.json_data['data']
+        sqlExecute = SqlExecute()
+        self.transact_post_before(sqlExecute)
+        if not g.is_continue_exec:
+            return
+        self.transact_post(sqlExecute)
+        if not g.is_continue_exec:
+            return
+        self.transact_post_after(sqlExecute)
+        if not g.is_continue_exec:
+            return
+        sqlExecute.commit()
+
+    # 插入数据前事务
+    def transact_post_before(self, cursor):
+        return
+
+    # 插入post数据
+    def transact_post(self, cursor):
+        insert_data = g.json_data['data'].copy()
         if g.json_data.get("type", None) == "replace":
             sql_insert = self.module.get_insert_sql(insert_data, is_replace=True)
         else:
             sql_insert = self.module.get_insert_sql(insert_data)
-        rowid = SqlExecute.commit_sql_data(sql_insert, insert_data)
-        if not g.is_continue_exec:
-            return
+        insert_data_keys = list(insert_data.keys())
+        for col_name in insert_data_keys:
+            if col_name in depth_post_map: del insert_data[col_name]
+        rowid = cursor.transact_commit_sql_data(sql_insert, insert_data)
         g.result['rowid'] = rowid
+
+    # 插入数据后事务
+    def transact_post_after(self, cursor):
+        return
 
     # POST 提交后操作
     def after_deal_post(self):
@@ -284,13 +308,38 @@ class GeneralOperate(object):
 
     # PUT 提交数据
     def deal_put_data(self):
+        sqlExecute = SqlExecute()
+        self.transact_put_before(sqlExecute)
+        if not g.is_continue_exec:
+            return
+        self.transact_put(sqlExecute)
+        if not g.is_continue_exec:
+            return
+        self.transact_put_after(sqlExecute)
+        if not g.is_continue_exec:
+            return
+        sqlExecute.commit()
+
+    # put 事务中提交前
+    def transact_put_before(self, cursor):
+        pass
+
+    # put 事务提交
+    def transact_put(self, cursor):
         record_id = g.view_args['record_id']
-        update_data = g.json_data['data']
+        update_data = g.json_data['data'].copy()
         sql_update = self.module.get_update_sql(update_data, record_id)
-        SqlExecute.commit_sql_data(sql_update, update_data)
+        insert_data_keys = list(update_data.keys())
+        for col_name in insert_data_keys:
+            if col_name in depth_post_map: del update_data[col_name]
+        cursor.transact_commit_sql_data(sql_update, update_data)
         if not g.is_continue_exec:
             return
         g.result['rowid'] = record_id
+
+    # put 事务中提交后
+    def transact_put_after(self, cursor):
+        pass
 
     # PUT 提交后操作
     def after_deal_put(self):

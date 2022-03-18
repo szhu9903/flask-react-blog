@@ -4,12 +4,11 @@ from flask import has_request_context, request
 
 class AppFormatter(logging.Formatter):
     def format(self, record):
+        record.method = ""
+        record.remote_addr = ""
         if has_request_context():
             record.method = request.method
             record.remote_addr = request.remote_addr
-        else:
-            record.method = ""
-            record.remote_addr = ""
         return super(AppFormatter, self).format(record)
 
 def create_logger():

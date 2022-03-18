@@ -1,5 +1,6 @@
 from flask import g
-from app.unit_config import depth_data_map, table_module_map, add_user_col
+from app.module_config import table_module_map
+from app.unit_config import depth_data_map, add_user_col, depth_post_map
 from .GeneralOperate import GeneralOperate
 from .SqlExecute import SqlExecute
 
@@ -63,6 +64,49 @@ class CompositeOperate(GeneralOperate):
         if config_name in add_user_col:
             g.json_data['data'][add_user_col[config_name]] = g.flask_httpauth_user.get('id')
         super(CompositeOperate, self).check_column_data()
+
+    # 提交操作，检查是够有要组合提交的数据
+    def transact_post_after(self, cursor):
+        insert_data = g.json_data['data']
+        main_id = g.result.get('rowid', None)
+        # 未获取到主表插入后的ID
+        if main_id is None: return
+        for col_name, col_value in insert_data.items():
+            if (col_name not in depth_post_map) or not isinstance(col_value, list):
+                continue
+            module_name = depth_post_map[col_name]['tab_name']
+            _, fk_col = depth_post_map[col_name]['link_column'].split(':')
+            for depth_data in col_value:
+                depth_data[fk_col] = main_id
+                # 获取插入语句
+                sql_insert = table_module_map[module_name].get_insert_sql(depth_data)
+                cursor.transact_commit_sql_data(sql_insert, depth_data)
+
+    # 更新操作，检查是够有要组合更新的数据
+    def transact_put_after(self, cursor):
+        record_id = g.view_args['record_id']
+        update_data = g.json_data['data']
+        for col_name, col_value in update_data.items():
+            if (col_name not in depth_post_map) or (not isinstance(col_value, list)):
+                continue
+            module_name = depth_post_map[col_name]['tab_name']
+            _, fk_col = depth_post_map[col_name]['link_column'].split(':')
+            # 清空关联数据，重新写入
+            sql_delete = f"{table_module_map[module_name].sql_delete_default} and {fk_col}=%s"
+            cursor.transact_commit_sql_data(sql_delete, (record_id,))
+            for depth_data in col_value:
+                depth_data[fk_col] = record_id
+                # 获取插入语句
+                sql_insert = table_module_map[module_name].get_insert_sql(depth_data)
+                cursor.transact_commit_sql_data(sql_insert, depth_data)
+
+
+
+
+
+
+
+
 
 
 
