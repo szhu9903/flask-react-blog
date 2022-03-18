@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `ur_relation`(
     `ur_roleid` INT UNSIGNED NOT NULL ,
     UNIQUE KEY `uk_ur_relation_ur_userid_ur_roleid` (`ur_userid`, `ur_roleid`),
     CONSTRAINT `fk_ur_relation_ur_userid` FOREIGN KEY (`ur_userid`) REFERENCES blog_user(`id`) ON DELETE CASCADE ,
-    CONSTRAINT `fk_ur_relation_ur_roleid` FOREIGN KEY (`ur_roleid`) REFERENCES sys_role(`id`)
+    CONSTRAINT `fk_ur_relation_ur_roleid` FOREIGN KEY (`ur_roleid`) REFERENCES sys_role(`id`) ON DELETE  CASCADE
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- 角色-权限关联表
@@ -68,8 +68,8 @@ CREATE TABLE IF NOT EXISTS `rp_relation`(
     /* 权限ID(syspurview) */
     `rp_purviewid` INT UNSIGNED NOT NULL ,
     UNIQUE KEY `uk_ur_relation_rp_roleid_rp_purviewid` (`rp_roleid`, `rp_purviewid`),
-    CONSTRAINT `fk_rp_relation_rp_roleid` FOREIGN KEY (`rp_roleid`) REFERENCES sys_role(`id`),
-    CONSTRAINT `fk_rp_relation_rp_purviewid` FOREIGN KEY (`rp_purviewid`) REFERENCES sys_purview(`id`)
+    CONSTRAINT `fk_rp_relation_rp_roleid` FOREIGN KEY (`rp_roleid`) REFERENCES sys_role(`id`) ON DELETE  CASCADE ,
+    CONSTRAINT `fk_rp_relation_rp_purviewid` FOREIGN KEY (`rp_purviewid`) REFERENCES sys_purview(`id`) ON DELETE  CASCADE
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- 文章
@@ -118,7 +118,7 @@ CREATE TABLE IF NOT EXISTS `blog_like_log`(
     /* 点赞时间 */
     `bll_createdate` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     UNIQUE `uk_blog_like_log_bll_blogid_bll_blog_commentid_bll_userid` (`bll_blogid`,`bll_blogcommentid`,`bll_userid`),
-    CONSTRAINT `fk_blog_like_log_bll_blogid` FOREIGN KEY (`bll_blogid`) REFERENCES `blog`(`id`),
+    CONSTRAINT `fk_blog_like_log_bll_blogid` FOREIGN KEY (`bll_blogid`) REFERENCES `blog`(`id`) ON DELETE CASCADE,
     CONSTRAINT `fk_blog_like_log_bll_blogcommentid` FOREIGN KEY (`bll_blogcommentid`) REFERENCES `blog_comment`(`id`),
     CONSTRAINT `fk_blog_like_log_bll_userid` FOREIGN KEY (`bll_userid`) REFERENCES `blog_user`(`id`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -174,7 +174,7 @@ CREATE TABLE IF NOT EXISTS `blog_comment`(
     `bc_createuid` INT UNSIGNED NOT NULL,
     /* 创建时间 */
     `bc_createdate` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT `fk_blog_comment_bc_blogid` FOREIGN KEY (`bc_blogid`) REFERENCES `blog`(`id`),
+    CONSTRAINT `fk_blog_comment_bc_blogid` FOREIGN KEY (`bc_blogid`) REFERENCES `blog`(`id`) ON DELETE CASCADE,
     CONSTRAINT `fk_blog_comment_bc_commentupid` FOREIGN KEY (`bc_commentupid`) REFERENCES `blog_comment`(`id`),
     CONSTRAINT `fk_blog_comment_bc_parentuid` FOREIGN KEY (`bc_parentuid`) REFERENCES `blog_user`(`id`),
     CONSTRAINT `fk_blog_comment_bc_createuid` FOREIGN KEY (`bc_createuid`) REFERENCES `blog_user`(`id`)
