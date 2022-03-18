@@ -1,5 +1,6 @@
 import logging
 from flask import current_app
+from app.unit_config import depth_post_map
 
 logger = logging.getLogger('app')
 
@@ -61,8 +62,9 @@ class TableModule():
     # 获取更新数据语句
     def get_update_sql(self, update_data, record_id):
         if "id" in update_data: del update_data["id"]
+        update_data_keys = [col_name for col_name in update_data.keys() if col_name not in depth_post_map]
         # 生成更新语句
-        col_data = ','.join(["%s=%%(%s)s" % (k, k) for k in update_data.keys()])
+        col_data = ','.join(["%s=%%(%s)s" % (k, k) for k in update_data_keys])
         update_sql = "update %s set %s where id=%s" % (self.table_name, col_data, record_id)
         return update_sql
 
@@ -74,12 +76,13 @@ class TableModule():
         :return: sql str
         """
         if "id" in insert_data: del insert_data["id"]
+        insert_data_keys = [col_name for col_name in insert_data.keys() if col_name not in depth_post_map]
         # 生成插入语句
-        col_key = ','.join(insert_data.keys())
-        col_val = "%(" + ")s,%(".join(insert_data.keys()) + ")s"
+        col_key = ','.join(insert_data_keys)
+        col_val = "%(" + ")s,%(".join(insert_data_keys) + ")s"
         sql_insert = "insert into %s (%s) VALUES (%s)" % (self.table_name, col_key, col_val)
         if is_replace:
-            update_str = ','.join([f"{key}=VALUES({key})" for key in insert_data.keys()])
+            update_str = ','.join([f"{key}=VALUES({key})" for key in insert_data_keys])
             sql_insert = f"{sql_insert} on duplicate key update {update_str}"
         logger.info(sql_insert)
         return sql_insert
@@ -89,7 +92,3 @@ class TableModule():
         delete_sql = "%s and id=%s" %(self.sql_delete_default, record_id)
         return delete_sql
 
-a = {
-    'as': 'sdddd',
-    'cd': 'shzu'
-}

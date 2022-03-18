@@ -1,5 +1,4 @@
 
-from app.comm.TableModule import TableModule
 
 default_result = {
     'status': 200,
@@ -18,6 +17,7 @@ default_page_data = {
 # 补充登录用户数据字段
 add_user_col = {
     'bloglikelog': 'bll_userid',
+    'blog': 'b_createuid',
 }
 
 # 查询子表数据
@@ -36,14 +36,12 @@ depth_data_map = {
     }
 }
 
-table_module_map = {
-    'blog': TableModule('blog',['blog_LV', 'blog_UV']),
-    'bloguser': TableModule('blog_user'),
-    'blogtype': TableModule('blog_type'),
-    'blogcomment': TableModule('blog_comment', ['blog_comment_V']),
-    'bloglikelog': TableModule('blog_like_log'),
-    'btrelation': TableModule('bt_relation'),
-    'blogtag': TableModule('blog_tag'),
+# 提交组合配置
+depth_post_map = {
+    "b_tag": {
+        "tab_name": "btrelation",
+        "link_column": "id:bt_blogid",
+    }
 }
 
 

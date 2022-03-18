@@ -6,9 +6,9 @@ from app.utils.json_util import DateEncoder
 
 logger = logging.getLogger('app')
 
-def create_app(config_name):
+def create_app(config_name='test', pytest_config=None):
     app = Flask(__name__)
-    app.config.from_object(config_map[config_name]())
+    app.config.from_object(config_map[config_name](pytest_config))
     app.json_encoder = DateEncoder
     # 加载蓝图，及消息中间件
     init_blueprint(app)

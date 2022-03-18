@@ -6,7 +6,7 @@ from app.comm.RedisExecute import RedisExecute
 from app.comm.SqlExecute import SqlExecute
 from app.comm.User import User
 from app.extensions import github
-from app.unit_config import table_module_map
+from app.module_config import table_module_map
 
 logger = logging.getLogger('app')
 
@@ -18,6 +18,7 @@ def user_login():
         username = req_data['data'].get('user_name')
         password = req_data['data'].get('user_pwd')
         if not (username and password):
+            g.result['status'] = 401.1
             g.result['message'] = '请求数据不完善'
             return jsonify(g.result)
         # 查询用户是否存在
@@ -25,6 +26,7 @@ def user_login():
         user_name = user.get_user_message(username)
         # 验证用户密码
         if not (user_name and user.verify_password(password)):
+            g.result['status'] = 401.1
             g.result['message'] = '请检查用户名、密码！'
             return jsonify(g.result)
         # 生成验证Token和刷新Token
@@ -40,6 +42,7 @@ def user_login():
         g.result['data'] = token_data
     except Exception as Err:
         logger.exception('服务器发生错误！%s' % Err)
+        g.result['status'] = 500
         g.result['message'] = f'登录失败：{Err}'
     return jsonify(g.result)
 

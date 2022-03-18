@@ -1,7 +1,7 @@
 from flask import g
 from app.comm.CompositeOperate import CompositeOperate
 from app.comm.SqlExecute import SqlExecute
-from app.unit_config import table_module_map
+from app.module_config import table_module_map
 
 class CommentController(CompositeOperate):
     def __init__(self, module):
