@@ -24,17 +24,25 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    
     - name: Set up Python 3.6
       uses: actions/setup-python@v2
       with:
         python-version: "3.6"
+    
     - name: Install dependencies
       run: |
-        echo `pwd`
         cd blog_server
         python -m pip install --upgrade pip
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+    
     - name: run falsk api pytest
       run: |
         cd blog_server
         python run_test.py --secret_key=${{ secrets.SECRET_KEY }} --db_pwd=${{ secrets.DB_PWD }} --db_host=${{ secrets.DB_HOST }}
+    
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v2
+      with:
+        files: ./blog_server/coverage.xml
+        name: flask-api

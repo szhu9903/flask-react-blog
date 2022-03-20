@@ -1,0 +1,12 @@
+.user {
+  text-align: center;
+  background-color: rgb(255, 255, 255);
+  margin-bottom: 12px;
+  padding: 12px;
+}
+.user img {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  margin-bottom: 12px;
+}

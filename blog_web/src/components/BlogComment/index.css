@@ -1,0 +1,30 @@
+
+.commect h2{
+  padding-bottom: 6px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.commect li {
+  display: block;
+}
+
+
+.comment-submit{
+  text-align: end;
+}
+
+.add-like {
+  cursor:pointer;
+  margin-right: 10px;
+}
+.add-like > span{
+  margin-right: 3px;
+}
+.comment-action {
+  cursor:pointer;
+  margin-right: 10px;
+}
+
+
+
+
+
