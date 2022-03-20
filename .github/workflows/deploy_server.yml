@@ -26,7 +26,7 @@ jobs:
           SOURCE: "blog_server/app"
           REMOTE_HOST: ${{ secrets.TENGXUN_HOST }}
           REMOTE_USER: "root"
-          TARGET: "/home/root/blog_server/app"
+          TARGET: "/home/root/blog_server"
       
       - name: Restart server
         uses: appleboy/ssh-action@master

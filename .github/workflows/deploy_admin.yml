@@ -1,7 +1,7 @@
 
 
 
-name: deploy blog to txy
+name: deploy blog admin
 on:
   push:
     branches:
