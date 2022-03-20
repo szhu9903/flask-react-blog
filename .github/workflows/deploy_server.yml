@@ -4,6 +4,7 @@
 name: Deploy Flask Server
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master

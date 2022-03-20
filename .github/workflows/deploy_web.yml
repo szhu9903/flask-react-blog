@@ -1,5 +1,6 @@
 name: deploy blog web
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
