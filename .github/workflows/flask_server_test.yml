@@ -46,4 +46,3 @@ jobs:
       with:
         files: ./blog_server/coverage.xml
         name: flask-api
-        verbose: true 
