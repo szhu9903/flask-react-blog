@@ -23,7 +23,7 @@ export default function Login() {
       localStorage.setItem('token_time', token_time);
       localStorage.setItem('refresh_token', refresh_token);
       localStorage.setItem('user_info', JSON.stringify(user_info));
-      navigate('/');
+      navigate('/home');
     }
   };
 

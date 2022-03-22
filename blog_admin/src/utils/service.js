@@ -2,7 +2,7 @@ import axios from 'axios'
 import { message } from 'antd'
 
 const service = axios.create({
-  baseURL: "http://localhost:8005/api", 
+  baseURL: "https://zsjblog.com/api", 
   headers: {"Content-Type": "application/json"},
   timeout: 50000,
 })
