@@ -12,6 +12,13 @@
 #components-layout-demo-custom-trigger .trigger:hover {
   color: #1890ff;
 }
+.site-layout-background{
+  text-align: end;
+}
+.site-layout-background a{
+  color:#959595;
+}
+
 
 
 
@@ -32,3 +39,10 @@
   padding: 24px;
   min-height: 100%;
 }
+
+
+
+.footer a {
+  color:#959595;
+}
+

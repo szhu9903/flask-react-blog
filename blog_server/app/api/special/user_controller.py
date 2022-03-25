@@ -36,7 +36,7 @@ def user_login():
                       'refresh_token': str(refresh_token, encoding='utf-8'),
                       'token_time': time.time() + current_app.config['ACCESS_TOKEN_TIME'],
                       'user_info': user.user_non_sensitive}
-        # 验证Token存入Redis，用于服务端控制Token,修改密码等
+        # 验证Token存入Redis，用于服务端控制Token,等
         RedisExecute.token_set(user.id, token_data['refresh_token'], current_app.config['REFRESH_TOKEN_TIME'])
         g.result['message'] = '登录成功!'
         g.result['data'] = token_data

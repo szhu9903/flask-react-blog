@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button, Checkbox, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import api from '../../api';
@@ -19,11 +19,17 @@ export default function Login() {
     let response = await api.user.blogLogin(loginData);
     if(response && response.data.status === 200){
       let { access_token, token_time, refresh_token, user_info } = response.data.data;
-      localStorage.setItem('access_token', access_token);
-      localStorage.setItem('token_time', token_time);
-      localStorage.setItem('refresh_token', refresh_token);
-      localStorage.setItem('user_info', JSON.stringify(user_info));
-      navigate('/');
+      console.log("user_info", user_info);
+      if (user_info.bu_isadmin === 1){
+        localStorage.setItem('access_token', access_token);
+        localStorage.setItem('token_time', token_time);
+        localStorage.setItem('refresh_token', refresh_token);
+        localStorage.setItem('user_info', JSON.stringify(user_info));
+        navigate('/home');
+      }else {
+        message.error("警告：你没有权限哦😯！")
+      }
+
     }
   };
 

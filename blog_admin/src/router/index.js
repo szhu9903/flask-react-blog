@@ -1,4 +1,5 @@
 import { lazy, Suspense } from 'react'
+import { Navigate } from 'react-router-dom'
 import LayoutAdmin from '../layouts/layout'
 
 const Login = lazy(() => import('../pages/Login'))
@@ -18,12 +19,13 @@ const router = [
     path: "/",
     element: <LayoutAdmin />,
     children: [
-      { index: true, element: lazyLoad(<Home />) },
+      { index: true, element:  <Navigate to="/home" /> },
+      { path: "home", element: lazyLoad(<Home />) },
       { path: "blog", element: lazyLoad(<Blog />) },
       // { path: "blog/detail/:id", element: lazyLoad(<BlogDetail />) },
     ]
   },
-  // { path: "/login", element: <AboutPage /> }
+  { path: "*", element: <Navigate to="/login" /> }
 ]
 
 export default router

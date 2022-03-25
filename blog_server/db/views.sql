@@ -27,14 +27,3 @@ FROM blog_comment a
 LEFT JOIN blog_user b ON (a.bc_createuid=b.id)
 LEFT JOIN blog_user c ON (a.bc_parentuid=c.id)
 
--- 用户视图：角色、权限
-CREATE OR replace VIEW blog_user_V AS
-SELECT
-    a.id,a.bu_account,a.bu_username,a.bu_delflag,
-    c.sr_name,e.sp_name,e.sp_apipath,e.sp_type
-FROM blog_user a
-LEFT JOIN ur_relation b ON (a.id=b.ur_userid)
-LEFT JOIN sys_role c ON (b.ur_roleid = c.id)
-LEFT JOIN rp_relation d ON (c.id = d.rp_roleid)
-LEFT JOIN sys_purview e ON (d.rp_purviewid = e.id)
-
