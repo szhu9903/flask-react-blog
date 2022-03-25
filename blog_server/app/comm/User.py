@@ -20,9 +20,10 @@ class User():
             self.id = user_message[0]['id']
             self._password = user_message[0]['bu_pwd']
             self.user_non_sensitive = {
-                "id":user_message[0]['id'],
-                "bu_username":user_message[0]['bu_username'],
-                "bu_userphoto":user_message[0]['bu_userphoto'],
+                "id": user_message[0]['id'],
+                "bu_username": user_message[0]['bu_username'],
+                "bu_userphoto": user_message[0]['bu_userphoto'],
+                "bu_isadmin": user_message[0]['bu_isadmin'],
                 }
             return True
         return False

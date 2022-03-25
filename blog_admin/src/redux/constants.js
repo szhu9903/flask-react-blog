@@ -17,4 +17,5 @@ export const UPDATE_IS_SHOW_LOGIN = 'updateIsShowLogin';
 
 // sys
 export const GET_BLOG_TAG = 'getBlogTag';
+export const GET_MENU = 'getMenu';
 

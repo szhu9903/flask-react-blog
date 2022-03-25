@@ -2,6 +2,7 @@ import axios from 'axios'
 import { message } from 'antd'
 
 const service = axios.create({
+  // baseURL: "http://127.0.0.1:8005/api",
   baseURL: "https://zsjblog.com/api", 
   headers: {"Content-Type": "application/json"},
   timeout: 50000,
@@ -91,6 +92,7 @@ service.interceptors.response.use(
       case 401.1:
         window.localStorage.clear();
         message.error(response.data.message);
+        window.location.href = '/login';
         break;
       case 403:
         message.error(response.data.message);

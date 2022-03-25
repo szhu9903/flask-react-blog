@@ -2,6 +2,9 @@ import logging
 from flask import current_app, g, request, jsonify
 from app.api.special import special
 from app.comm.RedisExecute import RedisExecute
+from app.comm.SqlExecute import SqlExecute
+from app.utils.auth_utils import auth_user
+from .special_help import format_menu
 
 logger = logging.getLogger('app')
 
@@ -35,6 +38,43 @@ def put_sys_like():
     except Exception as Err:
         logger.exception('服务器发生错误！%s' % Err)
         g.result['message'] = f'登录失败：{Err}'
+    return jsonify(g.result)
+
+
+# 获取用户后台管理菜单
+@special.route('/usermenu/', methods=['GET'])
+@auth_user
+def get_user_menus():
+    try:
+        user_id = g.flask_httpauth_user.get('id') if g.flask_httpauth_user else None
+        if user_id is None:
+            g.result['status'] = 401
+            g.result['message'] = '警告⚠️：后台无权!'
+            return jsonify(g.result)
+        # 获取用户菜单
+        query_sql = """
+            SELECT
+                sm.id,sm.sm_name,sm.sm_menupath,sm.sm_menuupid,sm.sm_sort
+            FROM rm_relation rr
+            LEFT JOIN sys_role sr ON (rr.rm_roleid = sr.id)
+            LEFT JOIN sys_menu sm ON (rr.rm_menuid = sm.id)
+            LEFT JOIN ur_relation ur ON (sr.id = ur.ur_roleid)
+            LEFT JOIN blog_user bu on (ur.ur_userid = bu.id)
+            where bu.bu_delflag=0 and bu.id=%s
+            group by sm.id order by sm.sm_sort
+        """
+        user_menus = SqlExecute.query_sql_data(query_sql, (user_id))
+        if not user_menus:
+            g.result['status'] = 401
+            g.result['message'] = '警告：后台无权!'
+            return jsonify(g.result)
+        # 格式化菜单
+        new_menus = format_menu(user_menus, None)
+        g.result['data'] = new_menus
+    except Exception as Err:
+        logger.error('服务器发生错误！%s' % Err)
+        g.result['message'] = f'获取菜单失败：{Err}'
+        g.result['code'] = 0x22
     return jsonify(g.result)
 
 #

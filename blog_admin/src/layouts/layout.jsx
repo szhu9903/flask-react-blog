@@ -1,45 +1,58 @@
 import React, { useState, useEffect } from 'react'
 import { Layout, Menu, Dropdown, Avatar } from 'antd';
 import { Link, Outlet, matchRoutes, useLocation, useNavigate } from 'react-router-dom';
-import { PieChartOutlined } from '@ant-design/icons';
 import { getUserInfo } from '../utils/user';
 import router from '../router';
 import logo from '../assets/images/logo.png'
 import './layout.css'
+import { useDispatch, useSelector } from 'react-redux';
+import actions from '../redux/actions';
 
 const { Header, Content, Footer, Sider } = Layout;
 // min-height: calc(100vh - 152px);
 
 export default function LayoutAdmin() {
 
-  const [defaultSelectedKeys, setDefaultSelectedKeys] = useState([]);
-  const [isInit, setIsInit] = useState(false);
+  const [selectedKeys, setSelectedKeys] = useState([]);
+  //数据
+  const { sysMenu } = useSelector((state) => state.sys)
+  const dispatch = useDispatch();
+  // 路由
   const location = useLocation();
   const navigate = useNavigate();
+  // 用户
   const userInfo = getUserInfo();
-  console.log(userInfo);
 
+  // 加载菜单数据
   useEffect(() => {
-    if (userInfo.id === null){
+    dispatch(actions.sys.getMenu());
+  }, [])
+
+  // 渲染菜单选中项
+  useEffect(() => {
+    if (userInfo.id === null || userInfo.bu_isadmin !== 1){
       navigate('/login');
     }
+    console.log(sysMenu);
     const routes = matchRoutes(router, location.pathname)
     if (routes !== null){
       for (let route of routes){
         let path = route.route.path;
         if (path){
-          setDefaultSelectedKeys([path]);
+          console.log(path);
+          setSelectedKeys([path]);
         }
       }
     }
-    setIsInit(true);
   }, [location.pathname])
 
+  // 退出登录处理函数
   const clearLocalUser = () => () =>{
     localStorage.clear();
     navigate(0);
   }
 
+  //退出登录
   const downMenu = (
     <Menu>
       <Menu.Item key="0">
@@ -50,8 +63,15 @@ export default function LayoutAdmin() {
     </Menu>
   );
 
-  if (!isInit){
-    return null;
+  // 渲染菜单
+  const createMenu = (sysMenu) => {
+    return sysMenu.map(menu => {
+      if (menu.sub && menu.sub.length > 0){
+        return <Menu.SubMenu key={menu.sm_menupath} title={menu.sm_name}>{ createMenu(menu.sub) }</Menu.SubMenu>
+      }else {
+        return <Menu.Item key={menu.sm_menupath}> <Link to={menu.sm_menupath}>{menu.sm_name}</Link> </Menu.Item>
+      }
+    })
   }
 
   return (
@@ -60,13 +80,8 @@ export default function LayoutAdmin() {
         <div className="logo">
           <img src={logo} alt="logo"/>
         </div>
-        <Menu theme="dark" defaultSelectedKeys={defaultSelectedKeys} mode="inline">
-          <Menu.Item key="/" icon={<PieChartOutlined />}>
-            <Link to='/home'>首页</Link>
-          </Menu.Item>
-          <Menu.Item key="blog" icon={<PieChartOutlined />}>
-            <Link to='/blog'>博客管理</Link>
-          </Menu.Item>
+        <Menu theme="dark" selectedKeys={selectedKeys} mode="inline">
+          { createMenu(sysMenu) }
         </Menu>
       </Sider>
       <Layout className="site-layout">
@@ -80,7 +95,11 @@ export default function LayoutAdmin() {
         <Content className="layout-content">
           <Outlet />
         </Content>
-        <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+        <Footer className='footer' style={{ textAlign: 'center' }}>
+          <p>
+            © 2019-2022 <a href="">Zsj Blog</a> 版权所有 ICP证： <a href="http://www.beian.miit.gov.cn" target="_blank">豫ICP备19013573号-1</a>
+          </p>
+        </Footer>
       </Layout>
     </Layout>
   )

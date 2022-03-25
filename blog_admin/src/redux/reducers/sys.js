@@ -1,7 +1,8 @@
-import { GET_BLOG_TAG } from "../constants";
+import { GET_BLOG_TAG, GET_MENU } from "../constants";
 
 const initState = {
-  blogTag: []
+  blogTag: [],
+  sysMenu: [],
 }
 
 export default function sys(preState=initState, action) {
@@ -11,6 +12,8 @@ export default function sys(preState=initState, action) {
     case GET_BLOG_TAG:
       return {...preState, blogTag: data.data};
     
+    case GET_MENU:
+      return {...preState, sysMenu: data.data};
     default:
       return preState;
       
