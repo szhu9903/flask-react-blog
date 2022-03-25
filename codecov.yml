@@ -1,0 +1,15 @@
+coverage:
+  status:
+    project:
+      default:
+        target: 70%
+        threshold: 5%
+      pytest-api:
+        target: 70%
+        threshold: 5%
+        flags:
+          - pytest-api
+comment:
+  layout: "reach, diff, flags, files"
+  behavior: default
+  require_changes: false 

@@ -45,4 +45,5 @@ jobs:
       uses: codecov/codecov-action@v2
       with:
         files: ./blog_server/coverage.xml
+        flags: pytest-api
         name: flask-api
