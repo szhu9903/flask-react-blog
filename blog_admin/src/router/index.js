@@ -19,7 +19,7 @@ const router = [
     path: "/",
     element: <LayoutAdmin />,
     children: [
-      { index: true, element: lazyLoad(<Home />) },
+      { index: true, element:  <Navigate to="/home" /> },
       { path: "home", element: lazyLoad(<Home />) },
       { path: "blog", element: lazyLoad(<Blog />) },
       // { path: "blog/detail/:id", element: lazyLoad(<BlogDetail />) },

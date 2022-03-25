@@ -17,6 +17,8 @@ CREATE TABLE IF NOT EXISTS `blog_user`(
     `bu_phone` VARCHAR(50)  NOT NULL DEFAULT '',
     /* 邮箱 */
     `bu_email` VARCHAR(50)  NOT NULL DEFAULT '',
+    /* 是否可进入后台 */
+    `bu_isadmin` INT UNSIGNED NOT NULL DEFAULT 0,
     /* 注册时间 */
     `bu_createdate` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     /* 有效状态 0：有效;1：无效 */
@@ -46,6 +48,22 @@ CREATE TABLE IF NOT EXISTS `sys_purview`(
     UNIQUE KEY `uk_sys_role_sr_name` (`sp_name`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- 后台管理权限菜单
+CREATE TABLE IF NOT EXISTS `sys_menu`(
+    /* ID */
+    `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY ,
+    /* 菜单名称 */
+    `sm_name` VARCHAR(30) NOT NULL ,
+    /* 菜单 path */
+    `sm_menupath` VARCHAR(30) NULL ,
+    /* 所属关联父级菜单(sys_menu) */
+    `sm_menuupid` INT UNSIGNED NULL ,
+    /* 菜单顺序 */
+    `sm_sort` INT UNSIGNED NOT NULL ,
+    UNIQUE KEY `uk_sys_menu_sm_name` (`sm_name`),
+    CONSTRAINT `fk_sys_menu_sm_menuupid` FOREIGN KEY (`sm_menuupid`) REFERENCES sys_menu(`id`) ON DELETE CASCADE
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 -- 用户-角色关联表
 CREATE TABLE IF NOT EXISTS `ur_relation`(
     /* ID */
@@ -67,9 +85,22 @@ CREATE TABLE IF NOT EXISTS `rp_relation`(
     `rp_roleid` INT UNSIGNED NOT NULL ,
     /* 权限ID(syspurview) */
     `rp_purviewid` INT UNSIGNED NOT NULL ,
-    UNIQUE KEY `uk_ur_relation_rp_roleid_rp_purviewid` (`rp_roleid`, `rp_purviewid`),
+    UNIQUE KEY `uk_rp_relation_rp_roleid_rp_purviewid` (`rp_roleid`, `rp_purviewid`),
     CONSTRAINT `fk_rp_relation_rp_roleid` FOREIGN KEY (`rp_roleid`) REFERENCES sys_role(`id`) ON DELETE  CASCADE ,
     CONSTRAINT `fk_rp_relation_rp_purviewid` FOREIGN KEY (`rp_purviewid`) REFERENCES sys_purview(`id`) ON DELETE  CASCADE
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- 角色-菜单关联表
+CREATE TABLE IF NOT EXISTS `rm_relation`(
+    /* ID */
+    `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY ,
+    /* 角色ID(sys_role) */
+    `rm_roleid` INT UNSIGNED NOT NULL ,
+    /* 权限ID(sys_menu) */
+    `rm_menuid` INT UNSIGNED NOT NULL ,
+    UNIQUE KEY `uk_rm_relation_rm_roleid_rm_menuid` (`rm_roleid`, `rm_menuid`),
+    CONSTRAINT `fk_rm_relation_rm_roleid` FOREIGN KEY (`rm_roleid`) REFERENCES sys_role(`id`) ON DELETE CASCADE ,
+    CONSTRAINT `fk_rm_relation_rm_menuid` FOREIGN KEY (`rm_menuid`) REFERENCES sys_menu(`id`) ON DELETE CASCADE
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- 文章
