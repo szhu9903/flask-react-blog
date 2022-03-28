@@ -19,7 +19,6 @@ def run_pytest(secret_key, db_pwd, db_host, cloud_host, cloud_pwd):
                  f'--cloud_host={cloud_host}',
                  f'--cloud_pwd={cloud_pwd}',
                  ])
-    
 
 if __name__ == '__main__':
     run_pytest()
