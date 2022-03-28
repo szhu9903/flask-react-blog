@@ -33,6 +33,8 @@ class BaseConfig(object):
             self.sys_redis['redis_password'] = pytest_config.get('db_pwd', None)
 
             self.SECRET_KEY = pytest_config.get('secret_key', None)
+            self.NEXTCLOUD_URL = pytest_config.get('cloud_host', None)
+            self.NEXTCLOUD_PASSWORD = pytest_config.get('cloud_pwd', None)
 
     @property
     def PYMYSQL_POOL(self):
@@ -84,6 +86,10 @@ class BaseConfig(object):
 
 # 测试环境
 class TestConfig(BaseConfig):
+
+    # 文件服务配置
+    NEXTCLOUD_USERNAME = 'szhu9903'
+    BLOG_IMAGES = os.path.join("tests", "images")
 
     DEBUG = False
     mysql_config = {

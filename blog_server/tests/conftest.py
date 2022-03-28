@@ -21,6 +21,16 @@ def pytest_addoption(parser):
         action="store",
         help="flask api test mysql password!"
     )
+    parser.addoption(
+        "--cloud_host",
+        action="store",
+        help="flask api test cloud host"
+    )
+    parser.addoption(
+        "--cloud_pwd",
+        action="store",
+        help="flask api test cloud pwd"
+    )
 
 
 def execute_sql(file_name, cursor):
@@ -37,6 +47,8 @@ def app(request):
         "secret_key": request.config.getoption("--secret_key"),
         "db_pwd": request.config.getoption("--db_pwd"),
         "db_host": request.config.getoption("--db_host"),
+        "cloud_host": request.config.getoption("--cloud_host"),
+        "cloud_pwd": request.config.getoption("--cloud_pwd"),
     }
     app = create_app(config_name='test', pytest_config=pytest_config)
     with app.app_context():
