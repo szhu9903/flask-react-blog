@@ -9,7 +9,7 @@ special = Blueprint("special", __name__)
 def before_request_special():
     g.result = copy.deepcopy(default_result)
     # 特殊类型接口不做处理
-    if request.path == "/v2/file/upload":
+    if request.path == "/api/v2/upload/img/":
         return
     if request.method in ['PUT', 'POST']:
         # 校验请求头信息

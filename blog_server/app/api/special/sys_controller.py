@@ -1,4 +1,7 @@
+import os
 import logging
+import datetime
+from nextcloud_client import Client
 from flask import current_app, g, request, jsonify
 from app.api.special import special
 from app.comm.RedisExecute import RedisExecute
@@ -77,26 +80,34 @@ def get_user_menus():
         g.result['code'] = 0x22
     return jsonify(g.result)
 
-#
-# # 文件上传
-# @api.route("/file/upload", methods=["post"])
-# @auth.login_required
-# def file_upload():
-#     try:
-#         file_data = request.files['file']
-#         now_date = datetime.datetime.now()
-#         # 每日文件夹
-#         file_path = os.path.join(current_app.config['FILE_PATH'], now_date.strftime("%Y%m%d"))
-#         if not os.path.isdir(file_path):
-#             os.makedirs(file_path)
-#         # 文件名
-#         file_name = now_date.strftime("%H%M%S") + now_date.strftime("%f") + file_data.filename
-#         # 保存文件 返回路径
-#
-#         save_path = os.path.join(file_path, file_name)
-#         file_data.save(save_path)
-#         res_data = {"file_url": "http://zsjblog.com" + save_path.replace(current_app.config['BASE_PATH'], '')}
-#         return success_response(res_data)
-#     except Exception as Err:
-#         logger.error('request [%s] err %s' % (request.path, Err))
-#         return error_response("ERR", str(Err))
+# 文件上传
+@special.route("/upload/img/", methods=["POST"])
+@auth_user
+def upload_img():
+    try:
+        user = g.flask_httpauth_user
+        if (not user) or ("blog" not in user.get(2, [])):
+            g.is_continue_exec = False
+            g.result["message"] = "无权上传！"
+            g.result["status"] = 403
+            return jsonify(g.result)
+        print('request.filesrequest.files')
+        file_data = request.files['file']
+        print('file_datafile_datafile_data', file_data)
+        # 连接文件服务
+        nextCloud = Client(current_app.config['NEXTCLOUD_URL'])
+        nextCloud.login(current_app.config['NEXTCLOUD_USERNAME'], current_app.config['NEXTCLOUD_PASSWORD'])
+        # 文件保存位置 文件名
+        now_date = datetime.datetime.now()
+        file_name = now_date.strftime("%Y%m%d%H%M%S%f") + file_data.filename
+        save_path = os.path.join(current_app.config['BLOG_IMAGES'], file_name)
+        # 上传文件，获取共享连接
+        nextCloud.put_file_contents(save_path, file_data)
+        link_info = nextCloud.share_file_with_link(save_path)
+
+        g.result['data'] = {"link_url": f'{link_info.get_link()}/preview'}
+    except Exception as Err:
+        logger.error('服务器发生错误！%s' % Err)
+        g.result['message'] = f'获取菜单失败：{Err}'
+        g.result['code'] = 0x22
+    return jsonify(g.result)
