@@ -13,7 +13,8 @@ import UserCar from '../../components/UserCar'
 import BlogComment from '../../components/BlogComment'
 import { getColorArr } from '../../utils/config';
 import './index.css'
-import '../../assets/rainbow.css'
+// import '../../assets/rainbow.css'
+import '../../assets/vue.css'
 import 'markdown-navbar/dist/navbar.css';
 
 export default function BlogDetail() {
