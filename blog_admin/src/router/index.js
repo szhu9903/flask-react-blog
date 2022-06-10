@@ -5,6 +5,8 @@ import LayoutAdmin from '../layouts/layout'
 const Login = lazy(() => import('../pages/Login'))
 const Home = lazy(() => import('../pages/Home'))
 const Blog = lazy(() => import('../pages/Blog'))
+const BlogType = lazy(() => import('../pages/BlogType'))
+const BlogTag = lazy(() => import('../pages/BlogTag'))
 
 const lazyLoad = (children) => {
   return  (<Suspense fallback={<></>}>
@@ -22,6 +24,8 @@ const router = [
       { index: true, element:  <Navigate to="/home" /> },
       { path: "home", element: lazyLoad(<Home />) },
       { path: "blog", element: lazyLoad(<Blog />) },
+      { path: "blogtype", element: lazyLoad(<BlogType />)},
+      { path: "blogtag", element: lazyLoad(<BlogTag />)},
       // { path: "blog/detail/:id", element: lazyLoad(<BlogDetail />) },
     ]
   },
