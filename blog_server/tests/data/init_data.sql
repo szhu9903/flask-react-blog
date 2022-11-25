@@ -3,6 +3,9 @@ INSERT INTO sys_purview(sp_name, sp_apipath, sp_type) values ('文章分类操�
 INSERT INTO sys_purview(sp_name, sp_apipath, sp_type) values ('文章标签操作', 'blogtag', 2);
 INSERT INTO sys_purview(sp_name, sp_apipath, sp_type) values ('评论操作', 'blogcomment', 2);
 INSERT INTO sys_purview(sp_name, sp_apipath, sp_type) values ('点赞', 'bloglikelog', 2);
+INSERT INTO sys_purview(sp_name, sp_apipath, sp_type) values ('用户查看', 'bloguser', 1);
+INSERT INTO sys_purview(sp_name, sp_apipath, sp_type) values ('用户管理', 'bloguser', 2);
+INSERT INTO sys_purview(sp_name, sp_apipath, sp_type) values ('角色', 'sysrole', 2);
 
 INSERT INTO sys_menu(sm_name, sm_menupath, sm_sort) values ('文章', '/blog', 1);
 INSERT INTO sys_menu(sm_name, sm_menupath, sm_sort) values ('首页', '/home', 2);
@@ -18,7 +21,7 @@ INSERT INTO blog_user(bu_account, bu_pwd, bu_username, bu_isadmin) values ('test
 
 INSERT INTO ur_relation(ur_userid, ur_roleid) values (1, 1);
 
-INSERT INTO rp_relation(rp_roleid, rp_purviewid) values (1, 1),(1, 2),(1, 3),(1, 4),(1, 5),(2, 4),(2, 5);
+INSERT INTO rp_relation(rp_roleid, rp_purviewid) values (1, 1),(1, 2),(1, 3),(1, 4),(1, 5),(1, 7),(1, 8),(2, 4),(2, 5),(2, 6);
 
 INSERT INTO rm_relation(rm_roleid, rm_menuid) values (1, 1),(1, 2),(1, 3),(1, 4),(1, 5);
 

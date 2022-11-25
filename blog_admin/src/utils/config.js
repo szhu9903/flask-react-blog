@@ -8,4 +8,5 @@ export function getColorArr() {
 }
 
 export const blogPageSize = 10;
+export const sysPageSize = 12;
 

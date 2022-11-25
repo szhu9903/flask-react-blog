@@ -67,7 +67,7 @@ export default function LayoutAdmin() {
   const createMenu = (sysMenu) => {
     return sysMenu.map(menu => {
       if (menu.sub && menu.sub.length > 0){
-        return <Menu.SubMenu key={menu.sm_menupath} title={menu.sm_name}>{ createMenu(menu.sub) }</Menu.SubMenu>
+        return <Menu.SubMenu key={menu.id} title={menu.sm_name}>{ createMenu(menu.sub) }</Menu.SubMenu>
       }else {
         return <Menu.Item key={menu.sm_menupath}> <Link to={menu.sm_menupath}>{menu.sm_name}</Link> </Menu.Item>
       }
