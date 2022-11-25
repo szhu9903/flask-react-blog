@@ -1,6 +1,6 @@
 from flask import current_app
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-from werkzeug.security import check_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
 from app.comm.TableModule import TableModule
 from app.comm.SqlExecute import SqlExecute
 
@@ -33,6 +33,13 @@ class User():
         if self._password:
             return check_password_hash(self._password, password)
         return False
+
+    # 生成密码
+    @staticmethod
+    def generate_password(password):
+        if password:
+            return generate_password_hash(password)
+        return None
 
     # 生成token
     @staticmethod
