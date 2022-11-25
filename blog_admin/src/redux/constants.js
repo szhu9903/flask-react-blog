@@ -17,7 +17,14 @@ export const UPDATE_IS_OPERATE_BLOG = 'updateIsOperateBlog'
 // login
 export const UPDATE_IS_SHOW_LOGIN = 'updateIsShowLogin';
 
+// user
+export const GET_BLOG_USER = 'getBlogUser';
+
+
 // sys
 export const GET_BLOG_TAG = 'getBlogTag';
+export const GET_SYS_ROLE = 'getSysRole';
+export const GET_SYS_PURVIEW = 'getSysPurview';
+export const GET_SYS_MENU = 'getSysMenu';
 export const GET_MENU = 'getMenu';
 
