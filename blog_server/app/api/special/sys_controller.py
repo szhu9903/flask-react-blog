@@ -108,6 +108,6 @@ def upload_img():
         g.result['data'] = {"link_url": f'{link_info.get_link()}/preview'}
     except Exception as Err:
         logger.error('服务器发生错误！%s' % Err)
-        g.result['message'] = f'获取菜单失败：{Err}'
-        g.result['code'] = 0x22
+        g.result['message'] = f'上传图片失败：{Err}'
+        g.result['code'] = 0x23
     return jsonify(g.result)

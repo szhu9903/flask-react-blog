@@ -74,7 +74,6 @@ class TestBlog:
         assert response.json['status'] == 403
         response = client_admin.put('/api/v3/blog/1/', json=request_json)
         assert response.status_code == 200
-        print(response.json)
         assert response.json['status'] == 200
         assert response.json['code'] == 0x06
 
