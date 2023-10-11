@@ -11,6 +11,9 @@ import './index.css'
 
 export default function Blog() {
 
+  const [blogTypeParam, setBlogTypeParam] = useState(null);
+  const [blogTitleParam, setBlogTitleParam] = useState(null);
+
   const dispatch = useDispatch();
   const { blogList, blogTotalSize, blogType } = useSelector((state) => state.blog);
 
@@ -23,16 +26,24 @@ export default function Blog() {
 
   // 分类所搜
   const searchTypeBlog = (value) => {
+    setBlogTypeParam(value);
     let getBlogListParam = `pagination=1,${blogPageSize}`
     if (value !== undefined){
       getBlogListParam = `filter=b_type=${value}&` + getBlogListParam;
+    }
+    if(blogTitleParam){
+      getBlogListParam = `fuzzyfilter=b_title=${blogTitleParam}&` + getBlogListParam;
     }
     dispatch(action.blog.getBlogList(getBlogListParam));
   }
 
   // 标题搜索
   const searchTitleBlog = (value) => {
+    setBlogTitleParam(value);
     let getBlogListParam = `fuzzyfilter=b_title=${value}&pagination=1,${blogPageSize}`;
+    if(blogTypeParam){
+      getBlogListParam = `filter=b_type=${blogTypeParam}&` + getBlogListParam;
+    }
     dispatch(action.blog.getBlogList(getBlogListParam));
   }
 
@@ -63,6 +74,12 @@ export default function Blog() {
   // 分页
   const onChangBlogPage = (pagination) => {
     let getBlogListParam = `pagination=${pagination.current},${blogPageSize}`;
+    if(blogTypeParam){
+      getBlogListParam = `filter=b_type=${blogTypeParam}&` + getBlogListParam;
+    }
+    if(blogTitleParam){
+      getBlogListParam = `fuzzyfilter=b_title=${blogTitleParam}&` + getBlogListParam;
+    }
     dispatch(action.blog.getBlogList(getBlogListParam));
   }
 
@@ -76,7 +93,7 @@ export default function Blog() {
     <div>
       <OperateBlog />
       <div className='blog-search'>
-        <Select className='search-type' placeholder="文章分类搜索" onChange={searchTypeBlog} style={{ width: 200 }} allowClear>
+        <Select className='search-type' placeholder="文章分类搜索" onChange={searchTypeBlog} onClear={() => setBlogTypeParam(null)} style={{ width: 200 }} allowClear>
           {blogType && 
             blogType.map(typeItem => <Select.Option key={typeItem.id}>{typeItem.bt_name}</Select.Option>)
           }
