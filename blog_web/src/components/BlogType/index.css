@@ -5,6 +5,8 @@
   background-color: rgb(255, 255, 255);
   margin-bottom: 12px;
   padding: 12px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 .type-title {
   padding-bottom: 8px;
@@ -21,11 +23,19 @@
 
 .type-list ul li {
   cursor: pointer;
-  margin: 6px 6px;
+  margin: 6px 0;
+  height: 30px;
+  line-height: 30px;
   border-left: 5px solid #1990ff;
-  padding-left: 10px;
+  border-radius: 4px;
+  padding: 0 5px;
   display: -webkit-flex;
   -webkit-justify-content: space-between;
 }
+.type-list ul li:hover {
+  background-color: #f5f5f5;
+  color: #1990ff;
+}
+
 
 
