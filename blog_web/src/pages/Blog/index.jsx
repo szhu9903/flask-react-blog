@@ -14,10 +14,12 @@ const { Search } = Input;
 
 export default function Blog() {
 
-  const { blogTotalSize } = useSelector(state => state.blog);
+  const { blogTotalSize, blogTypeId } = useSelector(state => state.blog);
   const dispatch = useDispatch();
 
   const blogSearchOrder = "order=id desc";
+
+  console.log('这里发丝的功夫ii阿斯房东', blogTypeId);
 
   useEffect(()=>{
     let getBlogListParam = `pagination=1,${blogPageSize}&${blogSearchOrder}`;
@@ -28,6 +30,9 @@ export default function Blog() {
   // 分页回调
   const onChangBlogPage = (page) => {
     let getBlogListParam = `pagination=${page},${blogPageSize}&${blogSearchOrder}`;
+    if(blogTypeId){
+      getBlogListParam += `&filter=b_type=${blogTypeId}`
+    }
     dispatch(action.blog.getBlogList(getBlogListParam));
   }
 

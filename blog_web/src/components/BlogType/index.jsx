@@ -8,7 +8,7 @@ import './index.css'
 
 export default function BlogType(props) {
 
-  const { blogType } = useSelector((state) => state.blog);
+  const { blogType, blogTypeId } = useSelector((state) => state.blog);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -18,6 +18,7 @@ export default function BlogType(props) {
   const getTypeBlog = (index) => {
     return () => {
       dispatch(action.blog.clearBlogList());
+      dispatch(action.blog.blogChange({key:'blogTypeId', value: index}))
       let getBlogListParam = `filter=b_type=${index}&pagination=1,${blogPageSize}`;
       dispatch(action.blog.getBlogList(getBlogListParam));
     }
@@ -33,7 +34,7 @@ export default function BlogType(props) {
           <ul>
             {blogType &&
               blogType.map((item) => (
-                <li key={item.id} onClick={getTypeBlog(item.id)}>
+                <li key={item.id} className={item.id == blogTypeId ? 'selected' : ''} onClick={getTypeBlog(item.id)}>
                   <span>{item.bt_name}</span>
                   <span>{item.bt_blogcount}</span>
                 </li>
