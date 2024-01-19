@@ -11,4 +11,8 @@
   height: 88px;
   border-radius: 50%;
   margin-bottom: 12px;
+  transition: all 2.0s;
+}
+.user img:hover {
+  transform: rotate(360deg);
 }

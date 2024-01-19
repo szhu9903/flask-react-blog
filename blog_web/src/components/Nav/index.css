@@ -28,7 +28,9 @@
 .login {
   margin: 14px 20px 14px 20px;
 }
-
+.menu-name {
+  font-weight: bold;
+}
 
 /* .logo {
   float: right;

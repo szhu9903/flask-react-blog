@@ -48,15 +48,15 @@ export default function Nav() {
         <Col span={16}>
           <Menu className='menu' mode="horizontal" defaultSelectedKeys={defaultSelectedKeys}>
             <Menu.Item key="/">
-              <Link to='/'> 首  页 </Link>
+              <Link className='menu-name' to='/'> 首  页 </Link>
             </Menu.Item>
             <Menu.Item key="blog">
-              <Link to='/blog'> 文 章 </Link>
+              <Link className='menu-name' to='/blog'> 文 章 </Link>
             </Menu.Item>
           </Menu>
         </Col>
         <Col span={4}>
-          <Button className='login' type="primary" onClick={setIsShowLogin}>登录</Button>
+          <Button className='login' shape="round" onClick={setIsShowLogin}>登录</Button>
         </Col>
       </Row>
     </div>
