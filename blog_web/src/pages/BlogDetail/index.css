@@ -29,9 +29,27 @@
 .detail-nav {
   background-color: rgb(255, 255, 255);
   margin-bottom: 12px;
-  padding: 12px;
+  padding: 12px 5px 12px 12px;
   border-radius: 5px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
+.navigation {
+  height: 500px;
+  overflow: auto;
+}
+.navigation::-webkit-scrollbar{
+  width: 6px;
+}
+.navigation::-webkit-scrollbar-track{
+  background: #f1f1f1; /* 滚动条轨道的颜色 */
+}
+.navigation::-webkit-scrollbar-thumb {
+  background-color: #888; /* 滚动条的颜色 */
+  border-radius: 4px; /* 滚动条的圆角 */
+  border: 2px solid #f1f1f1; /* 滚动条边框颜色 */
+}
+.navigation::-webkit-scrollbar-thumb:hover {
+  background: #555; /* 滚动条在悬停时的颜色 */
+}
 
