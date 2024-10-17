@@ -1,5 +1,5 @@
 import React from 'react'
-import { Layout } from 'antd';
+import { Layout, BackTop } from 'antd';
 import './layout.css'
 import Nav from '../components/Nav';
 import Footer from '../components/Footer';
@@ -13,6 +13,7 @@ const { Content } = Layout;
 export default function LayoutBlog() {
   return (
     <>
+      <BackTop />
       <Layout>
         <Nav />
           <Content >

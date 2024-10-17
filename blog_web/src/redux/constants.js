@@ -10,6 +10,8 @@ export const UPDATE_IS_REPLAY = 'updateIsReplay';
 
 export const CLEAR_BLOG_LIST = 'clearBlogList';
 
+export const BLOG_CHANGE = 'blogChange';
+
 // login
 export const UPDATE_IS_SHOW_LOGIN = 'updateIsShowLogin';
 

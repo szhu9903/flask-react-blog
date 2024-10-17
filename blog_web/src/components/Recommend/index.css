@@ -3,10 +3,13 @@
   background-color: rgb(255, 255, 255);
   margin-bottom: 12px;
   padding: 12px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 .recommend-title {
   padding-bottom: 8px;
   border-bottom: 1px solid #f0f0f0;
   margin-bottom: 4px;
   text-align: left;
+  font-weight: bold;
 }

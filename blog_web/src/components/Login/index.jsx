@@ -57,24 +57,11 @@ export default function Login() {
           // onFinish={onFinish}
           size="large"
         >
-          <Form.Item
-            name="username"
-            rules={[{ required: true, message: 'Please input your Username!' }]}
-          >
-            <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+          <Form.Item name="username" rules={[{ required: true, message: '请输入账号!' }]}>
+            <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="账号" />
           </Form.Item>
-          <Form.Item
-            name="password"
-            rules={[{ required: true, message: '请输入密码!' }]}
-          >
-            <Input
-              prefix={<LockOutlined className="site-form-item-icon" />}
-              type="password"
-              placeholder="Password"
-            />
-            {/* <a className="login-form-forgot" href="">
-              忘记密码？
-            </a> */}
+          <Form.Item name="password" rules={[{ required: true, message: '请输入密码!' }]}>
+            <Input prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="密码"/>
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit" className="login-form-button">
